@@ -1,3 +1,4 @@
+import './polyfills';
 import { createClient } from '@supabase/supabase-js';
 import { AppState, Platform } from 'react-native';
 import type { Database } from '@/types/database';

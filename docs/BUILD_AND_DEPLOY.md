@@ -47,7 +47,7 @@ Environment variables, or in `eas.json` → `build.<profile>.env`):
 | Variable | Value |
 | --- | --- |
 | `EXPO_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co` |
-| `EXPO_PUBLIC_SUPABASE_ANON_KEY` | the project's anon/publishable key |
+| `EXPO_PUBLIC_SUPABASE_ANON_KEY` | the publishable key (`sb_publishable_…`, Project Settings → API Keys) or legacy anon key |
 | `EXPO_PUBLIC_INVITE_BASE_URL` | optional https base for invite links |
 
 Never put the service-role key in the app.
