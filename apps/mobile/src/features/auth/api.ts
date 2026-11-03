@@ -1,4 +1,5 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import * as Crypto from 'expo-crypto';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
@@ -60,13 +61,28 @@ export const signInWithOAuth = async (provider: 'google' | 'apple') => {
   const { queryParams } = Linking.parse(result.url);
   const code = typeof queryParams?.code === 'string' ? queryParams.code : null;
   const errorDescription = typeof queryParams?.error_description === 'string' ? queryParams.error_description : null;
-  if (errorDescription) throw new AppError(errorDescription, { code: 'auth' });
+  if (errorDescription) {
+    throw new AppError(
+      /provider is not enabled|unsupported provider/i.test(errorDescription)
+        ? `${provider === 'apple' ? 'Apple' : 'Google'} sign-in isn’t set up for this project yet. Use email and password, or enable the provider in Supabase → Authentication → Providers.`
+        : errorDescription,
+      { code: 'auth' },
+    );
+  }
   if (!code) throw new AppError('Sign-in did not complete. Please try again.', { code: 'auth' });
   check(await supabase.auth.exchangeCodeForSession(code));
 };
 
+/** True inside the Expo Go app (as opposed to a development or store build). */
+export const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+/**
+ * Native Sign in with Apple needs the app's own bundle id and entitlement, so
+ * it only works in development/store builds — not in Expo Go, where the
+ * "Continue with Apple" button uses the browser-based flow instead.
+ */
 export const isNativeAppleSignInAvailable = async (): Promise<boolean> =>
-  Platform.OS === 'ios' && (await AppleAuthentication.isAvailableAsync());
+  Platform.OS === 'ios' && !isExpoGo && (await AppleAuthentication.isAvailableAsync());
 
 /** Native Sign in with Apple on iOS, exchanged for a Supabase session. */
 export const signInWithAppleNative = async () => {
@@ -79,8 +95,15 @@ export const signInWithAppleNative = async () => {
       nonce: hashedNonce,
     });
   } catch (error) {
-    if ((error as { code?: string }).code === 'ERR_REQUEST_CANCELED') return;
-    throw toAppError(error);
+    const code = (error as { code?: string }).code;
+    if (code === 'ERR_REQUEST_CANCELED') return;
+    // ERR_REQUEST_UNKNOWN / ERR_REQUEST_FAILED: Apple refused the request, e.g.
+    // the build lacks the Sign in with Apple capability or the device is not
+    // signed in to iCloud.
+    throw new AppError(
+      'Sign in with Apple isn’t available right now. Check that this iPhone is signed in to iCloud, or use email instead.',
+      { code: code ?? 'apple_failed', cause: error },
+    );
   }
   if (!credential.identityToken) throw new AppError('Apple did not return an identity token.', { code: 'auth' });
 

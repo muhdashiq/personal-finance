@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { BrandMark, Button, Screen, Text, TextField } from '@/components/ui';
+import { env } from '@/lib/env';
 import { toAppError } from '@/lib/errors';
 import { useTheme } from '@/theme/ThemeProvider';
 import { isNativeAppleSignInAvailable, signInWithAppleNative, signInWithOAuth, signInWithPassword } from '@/features/auth/api';
@@ -147,6 +148,12 @@ export default function SignIn() {
             </Text>
           </Link>
         </View>
+
+        {__DEV__ ? (
+          <Text variant="caption" color="textTertiary" align="center" selectable>
+            Development · server {env.supabaseUrl}
+          </Text>
+        ) : null}
       </Screen>
     </KeyboardAvoidingView>
   );

@@ -100,3 +100,23 @@ DATABASE_URL=postgres://postgres:postgres@127.0.0.1:54322/postgres npm run db:ty
   secret.
 * **Redirect URLs** — add `familyfinance://auth-callback` and
   `familyfinance://sign-in` under Auth → URL Configuration.
+
+## Troubleshooting on a phone
+
+* **"EXPO_PUBLIC_SUPABASE_URL is http://127.0.0.1…" / "Can't reach the server"** —
+  the app is still using the local placeholder. Expo reads
+  `apps/mobile/.env.local` (and `.env`) from the `apps/mobile` folder, and a
+  variable already exported in your terminal overrides both. Check with:
+  ```bash
+  grep -H EXPO_PUBLIC_SUPABASE_URL apps/mobile/.env* ; echo "shell: $EXPO_PUBLIC_SUPABASE_URL"
+  ```
+  Fix the value, `unset EXPO_PUBLIC_SUPABASE_URL` if the shell has one, and
+  restart with `npx expo start -c`. In development the sign-in screen shows
+  the server it is using at the bottom.
+* **Sign in with Apple in Expo Go** — native Apple sign-in needs your own
+  build (bundle id + entitlement). In Expo Go the Apple button uses the
+  browser flow, which also requires the Apple provider to be enabled in
+  Supabase. Use email sign-in in Expo Go.
+* **Google/Apple redirect in Expo Go** — Expo Go uses `exp://<your-ip>:8081/--/auth-callback`
+  as the return URL; add `exp://**` to Supabase → Authentication → URL
+  Configuration → Redirect URLs while developing.
