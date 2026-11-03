@@ -30,6 +30,18 @@ export const toAppError = (error: unknown, fallback = 'Something went wrong. Ple
   const e = (error ?? {}) as PostgrestLikeError & { name?: string; status?: number };
   const message = e.message ?? String(error);
 
+  // supabase-js auth: the request did not reach the server (status 0) or the
+  // server/gateway failed (5xx).
+  if (e.name === 'AuthRetryableFetchError') {
+    const unreachable = !e.status;
+    return new AppError(
+      unreachable
+        ? 'Can’t reach the server. Check your internet connection and that the app is configured with the right Supabase URL.'
+        : 'The server is temporarily unavailable. Please try again in a moment.',
+      { code: unreachable ? 'network' : `http_${e.status}`, isNetwork: unreachable, cause: error },
+    );
+  }
+
   if (isNetworkMessage(message)) {
     return new AppError('You appear to be offline. Check your connection and try again.', {
       code: 'network',

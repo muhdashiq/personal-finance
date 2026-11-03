@@ -6,6 +6,15 @@ describe('toAppError', () => {
     expect(e.isNetwork).toBe(true);
   });
 
+  it('treats an auth request that never reached the server as a network error', () => {
+    const unreachable = toAppError({ name: 'AuthRetryableFetchError', message: '{}', status: 0 });
+    expect(unreachable.isNetwork).toBe(true);
+    expect(unreachable.message).toMatch(/Can’t reach the server/);
+    const gateway = toAppError({ name: 'AuthRetryableFetchError', message: 'Bad Gateway', status: 502 });
+    expect(gateway.isNetwork).toBe(false);
+    expect(gateway.message).toMatch(/temporarily unavailable/);
+  });
+
   it('turns RLS and FK violations into friendly messages', () => {
     expect(toAppError({ code: '42501', message: 'new row violates row-level security policy for table "transactions"' }).message).toBe(
       'You do not have permission to do that.',

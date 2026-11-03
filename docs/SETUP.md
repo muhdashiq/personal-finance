@@ -44,10 +44,12 @@ supabase functions serve --env-file supabase/functions/.env
 
 ```bash
 cp apps/mobile/.env.example apps/mobile/.env.local
-# set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY from `supabase status`
+# set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY (hosted project: Project Settings →
+# API Keys → "Publishable key"; local stack: `supabase status`), then `npx expo start -c`
 ```
 
-On a physical device use your computer's LAN IP instead of `127.0.0.1`.
+On a physical device use your hosted project URL, or your computer's LAN IP instead of
+`127.0.0.1` for a local stack (127.0.0.1 on the phone is the phone itself).
 
 ## 4. Run
 
