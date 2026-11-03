@@ -24,6 +24,14 @@ describe('toAppError', () => {
     );
   });
 
+  it('explains a missing schema instead of a generic error', () => {
+    for (const code of ['PGRST205', 'PGRST202']) {
+      expect(toAppError({ code, message: "Could not find the table 'public.families' in the schema cache" }).message).toMatch(
+        /supabase db push/,
+      );
+    }
+  });
+
   it('passes through messages raised deliberately by SQL functions', () => {
     expect(toAppError({ code: '22023', message: 'A family needs at least one admin' }).message).toBe('A family needs at least one admin');
     expect(toAppError({ code: '42501', message: 'Only family admins can invite members' }).message).toBe(

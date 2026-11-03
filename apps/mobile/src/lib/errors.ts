@@ -66,6 +66,16 @@ export const toAppError = (error: unknown, fallback = 'Something went wrong. Ple
         /permission denied|row-level security/i.test(message) ? 'You do not have permission to do that.' : message,
         { code: e.code, cause: error },
       );
+    // Table/function missing from the API schema: the migrations have not
+    // been applied to this Supabase project (or the schema cache is stale).
+    case 'PGRST205':
+    case 'PGRST202':
+    case '42P01':
+    case '42883':
+      return new AppError(
+        'The app’s database isn’t set up on this Supabase project yet. Apply the migrations (npx supabase db push) and try again.',
+        { code: e.code, cause: error },
+      );
     case 'PGRST116':
       return new AppError('That item could not be found. It may have been deleted.', { code: e.code, cause: error });
     default:

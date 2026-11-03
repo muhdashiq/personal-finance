@@ -120,3 +120,7 @@ DATABASE_URL=postgres://postgres:postgres@127.0.0.1:54322/postgres npm run db:ty
 * **Google/Apple redirect in Expo Go** — Expo Go uses `exp://<your-ip>:8081/--/auth-callback`
   as the return URL; add `exp://**` to Supabase → Authentication → URL
   Configuration → Redirect URLs while developing.
+* **"database isn't set up" / `PGRST205` after signing in** — the migrations
+  have not been applied to the Supabase project the app points at. Run
+  `npx supabase link --project-ref <ref>` and `npx supabase db push` from the
+  repo root, then pull to refresh in the app.
