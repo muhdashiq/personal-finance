@@ -30,7 +30,7 @@ seed:
 | ashiq@example.com | FamilyFinance#2026 | admin |
 | sara@example.com | FamilyFinance#2026 | member (spouse) |
 
-Local emails (sign-up confirmations, password resets) are visible in Inbucket
+Local emails (sign-up confirmations, password resets) are visible in Mailpit
 at http://localhost:54324.
 
 Optional — Edge Functions:

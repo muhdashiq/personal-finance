@@ -12,7 +12,7 @@ max_rows = 1000
 [db]
 port = 54322
 shadow_port = 54320
-major_version = 15
+major_version = 17
 
 [db.seed]
 enabled = true
@@ -22,7 +22,8 @@ sql_paths = ["./seed.sql"]
 enabled = true
 port = 54323
 
-[inbucket]
+# Local email testing UI (Mailpit) for sign-up confirmations and resets.
+[local_smtp]
 enabled = true
 port = 54324
 
@@ -45,13 +46,13 @@ refresh_token_reuse_interval = 10
 enable_signup = true
 
 [auth.email]
-enable_signup = true
+enabled = true
 double_confirm_changes = true
 enable_confirmations = true
 secure_password_change = true
 
 [auth.sms]
-enable_signup = false
+enabled = false
 
 # Google: create OAuth credentials (Web client) and set the env vars below.
 [auth.external.google]
