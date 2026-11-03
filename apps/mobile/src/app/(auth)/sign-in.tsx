@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type SignInValues } from '@family-finance/core';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -6,7 +5,7 @@ import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Button, Screen, Text, TextField } from '@/components/ui';
+import { BrandMark, Button, Screen, Text, TextField } from '@/components/ui';
 import { toAppError } from '@/lib/errors';
 import { useTheme } from '@/theme/ThemeProvider';
 import { isNativeAppleSignInAvailable, signInWithAppleNative, signInWithOAuth, signInWithPassword } from '@/features/auth/api';
@@ -52,8 +51,8 @@ export default function SignIn() {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Screen edgeTop contentStyle={styles.content}>
         <View style={styles.brand}>
-          <View style={[styles.logo, { backgroundColor: theme.colors.primary, borderRadius: theme.radii.lg }]}>
-            <Ionicons name="wallet-outline" size={30} color={theme.colors.onPrimary} />
+          <View style={styles.logo}>
+            <BrandMark size={72} />
           </View>
           <Text variant="largeTitle" align="center">
             Family Finance
@@ -156,7 +155,7 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   content: { gap: 28, paddingTop: 48, maxWidth: 480, width: '100%', alignSelf: 'center' },
   brand: { alignItems: 'center', gap: 8 },
-  logo: { width: 64, height: 64, alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
+  logo: { marginBottom: 8 },
   divider: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   line: { flex: 1, height: StyleSheet.hairlineWidth },
   footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6 },

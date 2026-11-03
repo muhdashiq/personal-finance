@@ -92,3 +92,20 @@ Anything that adds a native module needs a new build.
       invite spouse (second device), add expense/income/transfer, offline add,
       dashboard numbers match the transactions list
 - [ ] STATUS.md updated
+
+## App icon and splash
+
+The icon set in `apps/mobile/assets` is generated from the vector source
+`apps/mobile/assets/brand/mark.svg` (a home whose interior is a rising bar
+chart, on the brand indigo). After editing the SVG:
+
+```bash
+npm i -D playwright && npx playwright install chromium   # once
+node scripts/render-icons.mjs
+```
+
+This writes `icon.png` (iOS/default, opaque 1024²), the Android adaptive
+`android-icon-{foreground,background,monochrome}.png` (mark inside the 66 %
+safe zone, monochrome for Android 13 themed icons), `splash-icon.png` and
+`favicon.png`. The in-app logo (`components/ui/BrandMark.tsx`) uses the same
+geometry. Icons only change in a new native build, not via `eas update`.

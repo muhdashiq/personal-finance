@@ -1,0 +1,9 @@
+<!-- Family Finance mark: a home whose interior is a rising bar chart.
+     Drawn on a 1024×1024 grid; the house occupies roughly x 236–788, y 268–776. -->
+<g id="mark">
+  <path d="M236 500 L512 268 L788 500" fill="none" stroke="currentColor" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M316 476 V736 Q316 776 356 776 H668 Q708 776 708 736 V476" fill="none" stroke="currentColor" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect class="bar1" x="392" y="616" width="64" height="104" rx="16"/>
+  <rect class="bar2" x="480" y="548" width="64" height="172" rx="16"/>
+  <rect class="bar3" x="568" y="468" width="64" height="252" rx="16"/>
+</g>

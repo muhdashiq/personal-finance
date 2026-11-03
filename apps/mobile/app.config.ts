@@ -26,7 +26,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: IS_DEV ? 'com.familyfinance.app.dev' : 'com.familyfinance.app',
     adaptiveIcon: {
-      backgroundColor: '#1E2A5A',
+      backgroundColor: '#262F6E',
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',

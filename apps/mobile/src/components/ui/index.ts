@@ -1,5 +1,6 @@
 export { Amount } from './Amount';
 export { Avatar } from './Avatar';
+export { BrandMark } from './BrandMark';
 export { Button } from './Button';
 export { Card } from './Card';
 export { Chip } from './Chip';
