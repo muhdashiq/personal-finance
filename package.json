@@ -1,0 +1,23 @@
+{
+  "name": "family-finance",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Family Finance – unified personal & household finance management (Expo + Supabase)",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "supabase/tests"
+  ],
+  "scripts": {
+    "test": "npm run test:core && npm run test:db && npm run test:mobile",
+    "test:core": "npm run test --workspace @family-finance/core",
+    "test:db": "npm run test --workspace @family-finance/db-tests",
+    "test:mobile": "npm run test --workspace @family-finance/mobile -- --ci",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspace @family-finance/mobile",
+    "db:types": "node scripts/gen-db-types.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
